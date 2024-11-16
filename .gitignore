@@ -162,3 +162,4 @@ cython_debug/
 #.idea/
 implementation_note.ipynb
 artifacts/data_ingestion/
+artifacts/prepare_base_model/
