@@ -53,3 +53,70 @@ stages:
       md5: f148bcaf60dcf6126542ba36082c9772.dir
       size: 118656672
       nfiles: 2
+  training:
+    cmd: python src/emotionRecognition/pipeline/stage_03_model_trainer.py
+    deps:
+    - path: artifacts/data_ingestion/train
+      hash: md5
+      md5: 6c29d042aa91691a8d6746ec1dcd7902.dir
+      size: 357487398
+      nfiles: 112
+    - path: artifacts/prepare_base_model
+      hash: md5
+      md5: f148bcaf60dcf6126542ba36082c9772.dir
+      size: 118656672
+      nfiles: 2
+    - path: config/config.yaml
+      hash: md5
+      md5: 26c5f55ebde959dcb6a157051e5700a6
+      size: 589
+    - path: src/emotionRecognition/pipeline/stage_03_model_trainer.py
+      hash: md5
+      md5: 6aa044a6adfe091807b85acacf6dacd4
+      size: 941
+    params:
+      params.yaml:
+        AUGMENTATION: true
+        BATCH_SIZE: 8
+        EPOCHS: 3
+        IMAGE_SIZE:
+        - 224
+        - 224
+        - 3
+    outs:
+    - path: artifacts/training/model.h5
+      hash: md5
+      md5: eb28f78246c298c8ee56d66652b2620e
+      size: 61347160
+  evaluation:
+    cmd: python src/emotionRecognition/pipeline/stage_04_model_evaluation.py
+    deps:
+    - path: artifacts/data_ingestion/train
+      hash: md5
+      md5: 6c29d042aa91691a8d6746ec1dcd7902.dir
+      size: 357487398
+      nfiles: 112
+    - path: artifacts/training/model.h5
+      hash: md5
+      md5: eb28f78246c298c8ee56d66652b2620e
+      size: 61347160
+    - path: config/config.yaml
+      hash: md5
+      md5: 26c5f55ebde959dcb6a157051e5700a6
+      size: 589
+    - path: src/emotionRecognition/pipeline/stage_04_model_evaluation.py
+      hash: md5
+      md5: 61297a9bcd1affb8c89c53566030d3b5
+      size: 951
+    params:
+      params.yaml:
+        BATCH_SIZE: 8
+        IMAGE_SIZE:
+        - 224
+        - 224
+        - 3
+    outs:
+    - path: scores.json
+      hash: md5
+      md5: f2d273f1356bf0ef66956dcaf3bb160f
+      size: 61
